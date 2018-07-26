@@ -1,12 +1,77 @@
-﻿<Window x:Class="eaw_texteditor.client.ui.main.MainWindow"
+﻿<Controls:MetroWindow x:Class="eaw_texteditor.client.ui.main.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:eaw_texteditor"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
-</Window>
+        Title="Star Wars: Empire at War - Text Editor" Height="450" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
+        BorderBrush="{DynamicResource AccentColorBrush}"
+        BorderThickness="1"
+        SaveWindowPosition="True" Icon="/eaw-texteditor;component/eaw-icon.ico" MinWidth="800" MinHeight="600" VerticalAlignment="Bottom">
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button Content="settings" />
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+    <TabControl x:Name="_mainBoxTabControl" Margin="0">
+        <TabItem x:Name="_basicTextEditorTab" Header="Basic Text Editor" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" Controls:ScrollViewerHelper.IsHorizontalScrollWheelEnabled="True" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="1*" MinHeight="150"/>
+                </Grid.RowDefinitions>
+                <ScrollViewer Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                    <DataGrid x:Name="_basicEditorDataGrid" AutoGenerateColumns="False" Controls:ScrollViewerHelper.IsHorizontalScrollWheelEnabled="True" CanUserReorderColumns="False" Controls:DataGridHelper.EnableCellEditAssist="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{x:Null}" CanUserReorder="False" ClipboardContentBinding="{x:Null}" Header="Text Key" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{x:Null}" CanUserReorder="False" ClipboardContentBinding="{x:Null}" Header="Translation" IsReadOnly="True"/>
+                            <DataGridHyperlinkColumn Binding="{x:Null}" CanUserSort="False" CanUserReorder="False" ContentBinding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Actions" IsReadOnly="True"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </ScrollViewer>
+                <GroupBox Name="_searchFormGroupBox" Grid.Column="0" Grid.Row="1" Header="Search">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Name="_advancedSearchFormGroupBox" Grid.Column="1" Grid.Row="1" Header="Advanced Search">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </TabItem>
+        <TabItem x:Name="_unitTextEditorTab" Header="Unit Text Editor" IsEnabled="False">
+        </TabItem>
+        <TabItem x:Name="_planetTextEditorTab" Header="Planet Text Editor" IsEnabled="False">
+        </TabItem>
+    </TabControl>
+</Controls:MetroWindow>
