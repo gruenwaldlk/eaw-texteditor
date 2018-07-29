@@ -6,14 +6,18 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:eaw_texteditor"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:serializable="clr-namespace:ts.translation.data.definitions.serializable;assembly=ts.translation"
+        xmlns:observables="clr-namespace:ts.translation.data.holder.observables;assembly=ts.translation"
         mc:Ignorable="d"
         Title="Star Wars: Empire at War - Text Editor" Height="450" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
         BorderBrush="{DynamicResource AccentColorBrush}"
         BorderThickness="1"
-        SaveWindowPosition="True" Icon="/eaw-texteditor;component/eaw-icon.ico" MinWidth="800" MinHeight="600" VerticalAlignment="Bottom">
+        SaveWindowPosition="True" Icon="/eaw-texteditor;component/eaw-icon.ico" MinWidth="800" MinHeight="600" VerticalAlignment="Bottom" Loaded="MetroWindow_Loaded">
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
-            <Button Content="settings" />
+            <Button x:Name="_importButton" Content="{iconPacks:FontAwesome FileImportSolid}" ToolTip="Import from file ..." Click="_importExecuteButton_Click"/>
+            <Button x:Name="_exportButton" Content="{iconPacks:FontAwesome FileExportSolid}" ToolTip="Export to file ..." Click="_exportExecuteButton_Click"/>
+            <Button x:Name="_settingsButton" Content="{iconPacks:FontAwesome CogSolid}" ToolTip="Settings ..." Click="_settingsExecuteButton_Click"/>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
     <TabControl x:Name="_mainBoxTabControl" Margin="0">
@@ -27,16 +31,15 @@
                     <RowDefinition Height="3*"/>
                     <RowDefinition Height="1*" MinHeight="150"/>
                 </Grid.RowDefinitions>
-                <ScrollViewer Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                    <DataGrid x:Name="_basicEditorDataGrid" AutoGenerateColumns="False" Controls:ScrollViewerHelper.IsHorizontalScrollWheelEnabled="True" CanUserReorderColumns="False" Controls:DataGridHelper.EnableCellEditAssist="True">
+                <!--<ScrollViewer Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">-->
+                <DataGrid x:Name="_basicEditorDataGrid" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" BindingGroup="{Binding ObservableTranslationData}" AutoGenerateColumns="False" CanUserReorderColumns="False" SelectionUnit="FullRow" MouseDoubleClick="_basicEditorDataGrid_OnDoubleClick" EnableColumnVirtualization="True" >
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{x:Null}" CanUserReorder="False" ClipboardContentBinding="{x:Null}" Header="Text Key" IsReadOnly="True"/>
-                            <DataGridTextColumn Binding="{x:Null}" CanUserReorder="False" ClipboardContentBinding="{x:Null}" Header="Translation" IsReadOnly="True"/>
-                            <DataGridHyperlinkColumn Binding="{x:Null}" CanUserSort="False" CanUserReorder="False" ContentBinding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Actions" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding Key}" CanUserReorder="False" Header="Text Key" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding Value}" CanUserReorder="False" Header="Translation" IsReadOnly="True"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                </ScrollViewer>
-                <GroupBox Name="_searchFormGroupBox" Grid.Column="0" Grid.Row="1" Header="Search">
+                <!--</ScrollViewer>-->
+                <GroupBox x:Name="_searchFormGroupBox" Grid.Column="0" Grid.Row="1" Header="Search">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
@@ -45,26 +48,46 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
                         </Grid.RowDefinitions>
+                        <TextBox x:Name="_searchBox" Grid.Column="0" Grid.Row="0" VerticalAlignment="Top" Grid.ColumnSpan="3" Margin="0,2,10,0" Padding="0" />
+                        <CheckBox Content="Search keys" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"/>
+                        <CheckBox Content="Search translation" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3"/>
+                        <CheckBox x:Name="_enableAdvancedSearchCheckBox" Content="Enable advanced search options" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" IsChecked="{Binding Path=IsAdvancedSearchCheckBoxChecked, Mode=TwoWay}" Checked="AdvancedSearchCheckBoxCheckedChanged" Unchecked="AdvancedSearchCheckBoxCheckedChanged"/>
+                        <Grid Grid.Column="3" Grid.Row="0" Height="30" MinHeight="30" MaxHeight="30" VerticalAlignment="Top">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="35"/>
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Button Grid.Column="0" Grid.Row="0" Content="{iconPacks:FontAwesome ChevronLeftSolid}" Margin="0,0,5,0" ToolTip="Previous result" IsEnabled="False"/>
+                            <Button x:Name="_searchExecuteButton" Grid.Column="1" Grid.Row="0" Content="{iconPacks:FontAwesome SearchSolid}" ToolTip="Find" IsEnabled="False" Click="_searchExecuteButton_Click"/>
+                            <Button Grid.Column="2" Grid.Row="0" Content="{iconPacks:FontAwesome ChevronRightSolid}" Margin="5,0,0,0" ToolTip="Next result"  IsEnabled="False"/>
+                        </Grid>
                     </Grid>
                 </GroupBox>
-                <GroupBox Name="_advancedSearchFormGroupBox" Grid.Column="1" Grid.Row="1" Header="Advanced Search">
+                <GroupBox Name="_advancedSearchFormGroupBox" Grid.Column="1" Grid.Row="1" Header="Advanced Search" IsEnabled="False">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
                         </Grid.RowDefinitions>
+                        <CheckBox x:Name="_matchCaseCheckBox" Content="Match case" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3"/>
+                        <CheckBox x:Name="_matchWordCheckBox" Content="Match word" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"/>
+                        <CheckBox x:Name="_regExSearch" Content="RegEx Search" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3"/>
                     </Grid>
                 </GroupBox>
             </Grid>
