@@ -4,15 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        xmlns:local="clr-namespace:eaw_texteditor"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-        xmlns:serializable="clr-namespace:ts.translation.data.definitions.serializable;assembly=ts.translation"
-        xmlns:observables="clr-namespace:ts.translation.data.holder.observables;assembly=ts.translation"
         mc:Ignorable="d"
         Title="Star Wars: Empire at War - Text Editor" Height="450" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
         BorderBrush="{DynamicResource AccentColorBrush}"
         BorderThickness="1"
-        SaveWindowPosition="True" Icon="/eaw-texteditor;component/eaw-icon.ico" MinWidth="800" MinHeight="600" VerticalAlignment="Bottom" Loaded="MetroWindow_Loaded">
+        SaveWindowPosition="True" Icon="/eaw-texteditor;component/eaw-icon.ico" MinWidth="800" MinHeight="600" VerticalAlignment="Bottom">
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Button x:Name="_importButton" Content="{iconPacks:FontAwesome FileImportSolid}" ToolTip="Import from file ..." Click="_importExecuteButton_Click"/>
@@ -21,7 +18,7 @@
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
     <TabControl x:Name="_mainBoxTabControl" Margin="0">
-        <TabItem x:Name="_basicTextEditorTab" Header="Basic Text Editor" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" Controls:ScrollViewerHelper.IsHorizontalScrollWheelEnabled="True" >
+        <TabItem x:Name="_basicTextEditorTab" Header="Basic Text Editor" >
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1.5*"/>
@@ -32,7 +29,8 @@
                     <RowDefinition Height="1*" MinHeight="150"/>
                 </Grid.RowDefinitions>
                 <!--<ScrollViewer Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">-->
-                <DataGrid x:Name="_basicEditorDataGrid" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" BindingGroup="{Binding ObservableTranslationData}" AutoGenerateColumns="False" CanUserReorderColumns="False" SelectionUnit="FullRow" MouseDoubleClick="_basicEditorDataGrid_OnDoubleClick" EnableColumnVirtualization="True" >
+                <!--<DataGrid x:Name="_basicEditorDataGrid" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" BindingGroup="{Binding ObservableTranslationData}" AutoGenerateColumns="False" CanUserReorderColumns="False" SelectionUnit="FullRow" MouseDoubleClick="_basicEditorDataGrid_OnDoubleClick" EnableColumnVirtualization="True" >-->
+                <DataGrid x:Name="_basicEditorDataGrid" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" ItemsSource="{Binding ListItemCollection}" AutoGenerateColumns="False" CanUserReorderColumns="False" SelectionUnit="FullRow" MouseDoubleClick="_basicEditorDataGrid_OnDoubleClick" EnableColumnVirtualization="True" >
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Key}" CanUserReorder="False" Header="Text Key" IsReadOnly="True"/>
                             <DataGridTextColumn Binding="{Binding Value}" CanUserReorder="False" Header="Translation" IsReadOnly="True"/>
@@ -53,23 +51,18 @@
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="30"/>
                         </Grid.RowDefinitions>
-                        <TextBox x:Name="_searchBox" Grid.Column="0" Grid.Row="0" VerticalAlignment="Top" Grid.ColumnSpan="3" Margin="0,2,10,0" Padding="0" />
-                        <CheckBox Content="Search keys" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"/>
-                        <CheckBox Content="Search translation" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3"/>
-                        <CheckBox x:Name="_enableAdvancedSearchCheckBox" Content="Enable advanced search options" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" IsChecked="{Binding Path=IsAdvancedSearchCheckBoxChecked, Mode=TwoWay}" Checked="AdvancedSearchCheckBoxCheckedChanged" Unchecked="AdvancedSearchCheckBoxCheckedChanged"/>
-                        <Grid Grid.Column="3" Grid.Row="0" Height="30" MinHeight="30" MaxHeight="30" VerticalAlignment="Top">
+                        <TextBox x:Name="_searchBox" Grid.Column="0" Grid.Row="0" VerticalAlignment="Top" Grid.ColumnSpan="3" Margin="10,2,10,0" Padding="0" Text="{Binding Path=SearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Grid Grid.Column="3" Grid.Row="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="30"/>
-                                <ColumnDefinition Width="35"/>
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Button Grid.Column="0" Grid.Row="0" Content="{iconPacks:FontAwesome ChevronLeftSolid}" Margin="0,0,5,0" ToolTip="Previous result" IsEnabled="False"/>
-                            <Button x:Name="_searchExecuteButton" Grid.Column="1" Grid.Row="0" Content="{iconPacks:FontAwesome SearchSolid}" ToolTip="Find" IsEnabled="False" Click="_searchExecuteButton_Click"/>
-                            <Button Grid.Column="2" Grid.Row="0" Content="{iconPacks:FontAwesome ChevronRightSolid}" Margin="5,0,0,0" ToolTip="Next result"  IsEnabled="False"/>
+                            <Button x:Name="_refreshButton" Content="{iconPacks:FontAwesome SyncSolid}" Grid.Column="0" Click="OnRefreshClick" ToolTip="Refresh..."/>
+                            <Button x:Name="_clearButton" Content="{iconPacks:FontAwesome TrashSolid}" Grid.Column="1" Click="OnClearClick" ToolTip="Clear..."/>
                         </Grid>
+                        <RadioButton Content="Search keys" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Margin="10,0,0,0" IsChecked="{Binding Path=UseKeySearch, Mode=TwoWay}" />
+                        <RadioButton Content="Search translation" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Margin="10,0,0,0" IsChecked="{Binding Path=UseValueSearch, Mode=TwoWay}"/>
+                        <CheckBox x:Name="_enableAdvancedSearchCheckBox" Content="Enable advanced search options" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" Margin="10,0,0,0" IsChecked="{Binding Path=IsAdvancedSearchCheckBoxChecked, Mode=TwoWay}" Checked="AdvancedSearchCheckBoxCheckedChanged" Unchecked="AdvancedSearchCheckBoxCheckedChanged"/>
                     </Grid>
                 </GroupBox>
                 <GroupBox Name="_advancedSearchFormGroupBox" Grid.Column="1" Grid.Row="1" Header="Advanced Search" IsEnabled="False">
@@ -84,10 +77,12 @@
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
                         </Grid.RowDefinitions>
-                        <CheckBox x:Name="_matchCaseCheckBox" Content="Match case" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3"/>
-                        <CheckBox x:Name="_matchWordCheckBox" Content="Match word" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"/>
-                        <CheckBox x:Name="_regExSearch" Content="RegEx Search" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3"/>
+                        <CheckBox x:Name="_matchCaseCheckBox" Content="Match case" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" IsChecked="{Binding Path=MatchCase, Mode=TwoWay}"/>
+                        <RadioButton x:Name="_normalCheckBox" Content="Simple Search" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" IsChecked="{Binding Path=UseSimpleSearch, Mode=TwoWay}"/>
+                        <RadioButton x:Name="_wildCardCheckBox" Content="Wildcard Search" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" IsChecked="{Binding Path=UseWildCardSearch, Mode=TwoWay}"/>
+                        <RadioButton x:Name="_regExSearch" Content="RegEx Search" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" IsChecked="{Binding Path=UseRegExSearch, Mode=TwoWay}"/>
                     </Grid>
                 </GroupBox>
             </Grid>
