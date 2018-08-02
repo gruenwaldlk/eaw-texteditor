@@ -22,5 +22,17 @@ namespace eaw_texteditor.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ENGLISH")]
+        public global::ts.translation.common.typedefs.PGLanguage USR_LOADED_LANGUAGE {
+            get {
+                return ((global::ts.translation.common.typedefs.PGLanguage)(this["USR_LOADED_LANGUAGE"]));
+            }
+            set {
+                this["USR_LOADED_LANGUAGE"] = value;
+            }
+        }
     }
 }

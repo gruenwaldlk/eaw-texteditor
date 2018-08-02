@@ -28,15 +28,22 @@
                     <RowDefinition Height="3*"/>
                     <RowDefinition Height="1*" MinHeight="150"/>
                 </Grid.RowDefinitions>
-                <!--<ScrollViewer Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">-->
-                <!--<DataGrid x:Name="_basicEditorDataGrid" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" BindingGroup="{Binding ObservableTranslationData}" AutoGenerateColumns="False" CanUserReorderColumns="False" SelectionUnit="FullRow" MouseDoubleClick="_basicEditorDataGrid_OnDoubleClick" EnableColumnVirtualization="True" >-->
-                <DataGrid x:Name="_basicEditorDataGrid" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" ItemsSource="{Binding ListItemCollection}" AutoGenerateColumns="False" CanUserReorderColumns="False" SelectionUnit="FullRow" MouseDoubleClick="_basicEditorDataGrid_OnDoubleClick" EnableColumnVirtualization="True" >
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Key}" CanUserReorder="False" Header="Text Key" IsReadOnly="True"/>
-                            <DataGridTextColumn Binding="{Binding Value}" CanUserReorder="False" Header="Translation" IsReadOnly="True"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                <!--</ScrollViewer>-->
+                <DataGrid x:Name="_basicEditorDataGrid" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" ItemsSource="{Binding ListItemCollection}" AutoGenerateColumns="False" CanUserReorderColumns="False" SelectionUnit="FullRow" MouseDoubleClick="_basicEditorDataGrid_OnDoubleClick" EnableColumnVirtualization="True" IsReadOnly="True" >
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Copy">
+                            </MenuItem>
+                            <Separator />
+                            <MenuItem Header="New" Click="OnMenuNew">
+                            </MenuItem>
+                            <MenuItem Header="Delete"></MenuItem>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Key}" CanUserReorder="False" Header="Text Key" IsReadOnly="True"/>
+                        <DataGridTextColumn Binding="{Binding Value}" CanUserReorder="False" Header="Translation" IsReadOnly="True"/>
+                    </DataGrid.Columns>
+                </DataGrid>
                 <GroupBox x:Name="_searchFormGroupBox" Grid.Column="0" Grid.Row="1" Header="Search">
                     <Grid>
                         <Grid.ColumnDefinitions>

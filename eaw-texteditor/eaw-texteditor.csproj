@@ -102,8 +102,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="client\ui\dialogs\add\AddTextKeyWindow.xaml.cs">
+      <DependentUpon>AddTextKeyWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="client\ui\dialogs\edit\EditTextKeyWindow.xaml.cs">
       <DependentUpon>EditTextKeyWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="client\ui\dialogs\settings\SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ObservableTranslationDataHolder.xaml.cs">
       <DependentUpon>ObservableTranslationDataHolder.xaml</DependentUpon>
@@ -111,8 +117,17 @@
     <Compile Include="shared\common\util\ui\UiUtility.cs" />
     <Compile Include="shared\data\dialogs\edit\EditTextKeyWindowData.cs" />
     <Compile Include="shared\data\AWindowData.cs" />
+    <Compile Include="shared\data\dialogs\settings\SettingsWindowData.cs" />
     <Compile Include="shared\data\main\MainWindowData.cs" />
+    <Page Include="client\ui\dialogs\add\AddTextKeyWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="client\ui\dialogs\edit\EditTextKeyWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="client\ui\dialogs\settings\SettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -151,6 +166,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

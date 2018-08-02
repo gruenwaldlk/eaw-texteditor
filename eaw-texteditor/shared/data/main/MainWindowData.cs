@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Data;
 using ts.translation.Annotations;
+using ts.translation.common.typedefs;
+using ts.translation.common.util.observable;
 using ts.translation.data.holder.observables;
 
 namespace eaw_texteditor.shared.data.main
@@ -187,10 +191,35 @@ namespace eaw_texteditor.shared.data.main
             }
         }
 
+        private PGLanguage _selectedLanguage = Properties.Settings.Default.USR_LOADED_LANGUAGE;
+
+        public PGLanguage SelectedLanguage
+        {
+            get => _selectedLanguage;
+            set
+            {
+                if (!Sources.ContainsKey(value)) return;
+                _selectedLanguage = value;
+                ListItemCollection = Sources[value].View;
+                Properties.Settings.Default.USR_LOADED_LANGUAGE = value;
+                OnPropertyChanged(nameof(SelectedLanguage));
+            }
+        }
+
         public void TryRefresh()
         {
             string t = SearchTerm;
             SearchTerm = t;
+        }
+
+        Dictionary<PGLanguage, CollectionViewSource> _sources = new Dictionary<PGLanguage, CollectionViewSource>();
+
+        public Dictionary<PGLanguage, CollectionViewSource> Sources { get => _sources;
+            set
+            {
+                _sources = value;
+                OnPropertyChanged(nameof(Sources));
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

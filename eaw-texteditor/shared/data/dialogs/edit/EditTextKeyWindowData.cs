@@ -28,7 +28,7 @@ namespace eaw_texteditor.shared.data.dialogs.edit
             set
             {
                 if (_translation == null) return;
-                _translation.Key = DoValidate(value); ;
+                _translation.Key = DoValidate(value);
                 OnPropertyChanged(nameof(Key));
             }
         }
@@ -96,6 +96,11 @@ namespace eaw_texteditor.shared.data.dialogs.edit
 
         private string DoValidate(string value)
         {
+            if (string.IsNullOrEmpty(value))
+            {
+                IsValidKey = false;
+                return string.Empty;
+            }
             string newValue = value.TrimEnd();
             Regex regEx = new Regex("^[A-Z0-9_]*$");
             IsValidKey = regEx.Match(newValue).Success;
@@ -114,7 +119,6 @@ namespace eaw_texteditor.shared.data.dialogs.edit
             }
         }
 
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -122,7 +126,5 @@ namespace eaw_texteditor.shared.data.dialogs.edit
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-
     }
 }
