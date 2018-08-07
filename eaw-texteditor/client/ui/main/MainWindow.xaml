@@ -28,7 +28,7 @@
                     <RowDefinition Height="3*"/>
                     <RowDefinition Height="1*" MinHeight="150"/>
                 </Grid.RowDefinitions>
-                <DataGrid x:Name="_basicEditorDataGrid" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" ItemsSource="{Binding ListItemCollection}" AutoGenerateColumns="False" CanUserReorderColumns="False" SelectionUnit="FullRow" MouseDoubleClick="_basicEditorDataGrid_OnDoubleClick" EnableColumnVirtualization="True" IsReadOnly="True" >
+                <DataGrid x:Name="_basicEditorDataGrid" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" ItemsSource="{Binding TranslationCollection}" AutoGenerateColumns="False" CanUserReorderColumns="False" SelectionUnit="FullRow" MouseDoubleClick="_basicEditorDataGrid_OnDoubleClick" EnableColumnVirtualization="True" IsReadOnly="True" >
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Copy">
@@ -64,11 +64,11 @@
                                 <ColumnDefinition Width="30"/>
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
-                            <Button x:Name="_refreshButton" Content="{iconPacks:FontAwesome SyncSolid}" Grid.Column="0" Click="OnRefreshClick" ToolTip="Refresh..."/>
+                            <Button x:Name="_refreshButton" Content="{iconPacks:FontAwesome SearchSolid}" Grid.Column="0" Click="OnRefreshClick" ToolTip="Search/Refresh"/>
                             <Button x:Name="_clearButton" Content="{iconPacks:FontAwesome TrashSolid}" Grid.Column="1" Click="OnClearClick" ToolTip="Clear..."/>
                         </Grid>
-                        <RadioButton Content="Search keys" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Margin="10,0,0,0" IsChecked="{Binding Path=UseKeySearch, Mode=TwoWay}" />
-                        <RadioButton Content="Search translation" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Margin="10,0,0,0" IsChecked="{Binding Path=UseValueSearch, Mode=TwoWay}"/>
+                        <RadioButton Content="Search keys" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Margin="10,0,0,0" IsChecked="{Binding Path=IsKeySearchChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <RadioButton Content="Search translation" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Margin="10,0,0,0" IsChecked="{Binding Path=IsValueSearchChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         <CheckBox x:Name="_enableAdvancedSearchCheckBox" Content="Enable advanced search options" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" Margin="10,0,0,0" IsChecked="{Binding Path=IsAdvancedSearchCheckBoxChecked, Mode=TwoWay}" Checked="AdvancedSearchCheckBoxCheckedChanged" Unchecked="AdvancedSearchCheckBoxCheckedChanged"/>
                     </Grid>
                 </GroupBox>
@@ -86,7 +86,7 @@
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="30"/>
                         </Grid.RowDefinitions>
-                        <CheckBox x:Name="_matchCaseCheckBox" Content="Match case" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" IsChecked="{Binding Path=MatchCase, Mode=TwoWay}"/>
+                        <CheckBox x:Name="_matchCaseCheckBox" Content="Match case" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" IsChecked="{Binding Path=IsMatchCaseChecked, Mode=TwoWay}"/>
                         <RadioButton x:Name="_normalCheckBox" Content="Simple Search" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" IsChecked="{Binding Path=UseSimpleSearch, Mode=TwoWay}"/>
                         <RadioButton x:Name="_wildCardCheckBox" Content="Wildcard Search" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" IsChecked="{Binding Path=UseWildCardSearch, Mode=TwoWay}"/>
                         <RadioButton x:Name="_regExSearch" Content="RegEx Search" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" IsChecked="{Binding Path=UseRegExSearch, Mode=TwoWay}"/>

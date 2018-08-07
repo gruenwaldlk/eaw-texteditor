@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -33,9 +32,9 @@ namespace eaw_texteditor.client.ui.main
 
         private void ImportFormData(MainWindowData data)
         {
-            data.UseKeySearch = true;
+            data.IsKeySearchChecked = true;
             data.UseSimpleSearch = true;
-            data.MatchCase = true;
+            data.IsMatchCaseChecked = true;
             FormData = data;
             DataContext = data;
         }
@@ -113,6 +112,11 @@ namespace eaw_texteditor.client.ui.main
                 src.Add(editWindow.FormData.Translation);
             }
 
+        }
+
+        private void OnSearchClick(object sender, RoutedEventArgs e)
+        {
+            FormData.TryRefresh();
         }
     }
 }

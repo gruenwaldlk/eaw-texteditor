@@ -114,6 +114,7 @@
     <Compile Include="ObservableTranslationDataHolder.xaml.cs">
       <DependentUpon>ObservableTranslationDataHolder.xaml</DependentUpon>
     </Compile>
+    <Compile Include="shared\common\util\search\SearchUtility.cs" />
     <Compile Include="shared\common\util\ui\UiUtility.cs" />
     <Compile Include="shared\data\dialogs\edit\EditTextKeyWindowData.cs" />
     <Compile Include="shared\data\AWindowData.cs" />
@@ -166,7 +167,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
