@@ -13,6 +13,32 @@ namespace eaw_texteditor.shared.data.main
 {
     public class MainWindowData : INotifyPropertyChanged
     {
+        private bool _isEdited;
+
+        public bool IsEdited
+        {
+            get => _isEdited;
+            set
+            {
+                _isEdited = value;
+                OnPropertyChanged(nameof(IsEdited));
+            }
+        }
+
+
+        private bool _isTranslationDataLoaded;
+
+        public bool IsTranslationDataLoaded
+        {
+            get => _isTranslationDataLoaded;
+            set
+            {
+                _isTranslationDataLoaded = value;
+                OnPropertyChanged(nameof(IsTranslationDataLoaded));
+            }
+        }
+
+
         private bool _isAdvancedSearchCheckBoxChecked;
 
         public bool IsAdvancedSearchCheckBoxChecked

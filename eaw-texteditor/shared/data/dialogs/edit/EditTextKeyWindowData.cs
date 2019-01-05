@@ -12,12 +12,15 @@ namespace eaw_texteditor.shared.data.dialogs.edit
     {
         private ObservableTranslationData _translation;
 
+        public bool TranslationChanged = false;
+
         public ObservableTranslationData Translation
         {
             get => _translation;
             set
             {
                 _translation = value;
+                TranslationChanged = true;
                 OnPropertyChanged(nameof(Translation));
             }
         }
