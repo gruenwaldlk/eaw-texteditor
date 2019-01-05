@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Weavers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="FodyWeavers.xsd">
+  <Costura IncludeAssemblies='Costura|ControlzEx|DotNetToolkit.Wpf.Metro.Dialogs|log4net|MahApps.Metro|MahApps.Metro.IconPacks|MahApps.Metro.SimpleChildWindow|Microsoft.WindowsAPICodePack|Microsoft.WindowsAPICodePack.Shell|System.Data.Common|System.Diagnostics.StackTrace|System.Diagnostics.Tracing|System.Globalization.Extensions|System.IO.Compression|System.Net.Http|System.Net.Sockets|System.Runtime.Serialization.Primitives|System.Security.Cryptography.Algorithms|System.Security.SecureString|System.Threading.Overlapped|System.Windows.Interactivity|System.Xml.XPath.XDocument|ts.translation|Mono.Cecil|Mono.Cecil.Mdb|Mono.Cecil.Pdb|Mono.Cecil.Rocks|ResourceEmbedder.Core'/>
+</Weavers>

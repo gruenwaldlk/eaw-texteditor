@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using eaw_texteditor.shared.data.dialogs.export;
 using MahApps.Metro.SimpleChildWindow;
 using Microsoft.WindowsAPICodePack.Dialogs;
