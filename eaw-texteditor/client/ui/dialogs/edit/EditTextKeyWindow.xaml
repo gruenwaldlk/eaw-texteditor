@@ -15,7 +15,7 @@
         ShowTitleBar="False"
         HorizontalContentAlignment="Stretch"
         EnableDropShadow="False"
-        CloseOnOverlay="True" ClosingFinished="OnClosingFinished">
+        CloseOnOverlay="True" ClosingFinished="OnClosingFinished" Loaded="EditTextKeyWindow_Loaded">
     <simpleChildWindow:ChildWindow.OverlayBrush>
         <SolidColorBrush Opacity="0.35" Color="{StaticResource BlackColor}" />
     </simpleChildWindow:ChildWindow.OverlayBrush>
@@ -38,6 +38,28 @@
             </Rectangle.OpacityMask>
         </Rectangle>
         <TextBlock Grid.Row="1" Grid.Column="1" Foreground="Crimson" Text="The text key should only contain uppercase letters, numbers and underscores. Some hardcoded vanilla keys do not follow this convention, so the message can be disregarded for those keys." Visibility="{Binding IsBoltVisible}" Margin="0" TextWrapping="Wrap"/>
-        <TextBox x:Name="_valueTextBox" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,5" Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" SpellCheck.IsEnabled="True" MinLines="5"/>
+        <Grid Margin="0" Grid.Row="2" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="_valueEnglishLabel" Content="English:" Grid.Row="0" Grid.Column="0" Visibility="Collapsed"/>
+            <TextBox x:Name="_valueEnglishTextBox" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,5" Text="{Binding EnglishText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" SpellCheck.IsEnabled="True" MinLines="3" Visibility="Collapsed"/>
+            <Label x:Name="_valueGermanLabel" Content="German:" Grid.Row="1" Grid.Column="0" Visibility="Collapsed"/>
+            <TextBox x:Name="_valueGermanTextBox" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,5" Text="{Binding GermanText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" SpellCheck.IsEnabled="True" MinLines="3" Visibility="Collapsed"/>
+            <Label x:Name="_valueFrenchLabel" Content="French:" Grid.Row="2" Grid.Column="0" Visibility="Collapsed"/>
+            <TextBox x:Name="_valueFrenchTextBox" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,5" Text="{Binding FrenchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" SpellCheck.IsEnabled="True" MinLines="3" Visibility="Collapsed"/>
+            <Label x:Name="_valueItalianLabel" Content="Italian:" Grid.Row="3" Grid.Column="0" Visibility="Collapsed"/>
+            <TextBox x:Name="_valueItalianTextBox" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,5" Text="{Binding ItalianText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" SpellCheck.IsEnabled="True" MinLines="3" Visibility="Collapsed"/>
+            <Label x:Name="_valueSpanishLabel" Content="Spanish:" Grid.Row="4" Grid.Column="0" Visibility="Collapsed"/>
+            <TextBox x:Name="_valueSpanishTextBox" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,5" Text="{Binding SpanishText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" SpellCheck.IsEnabled="True" MinLines="3" Visibility="Collapsed"/>
+        </Grid>
     </Grid>
 </simpleChildWindow:ChildWindow>

@@ -14,7 +14,7 @@
         ShowTitleBar="False"
         HorizontalContentAlignment="Stretch"
         EnableDropShadow="False"
-        CloseByEscape="False">
+        CloseByEscape="False" Loaded="AddTextKeyWindow_Loaded">
     <simpleChildWindow:ChildWindow.OverlayBrush>
         <SolidColorBrush Opacity="0.35" Color="{StaticResource BlackColor}" />
     </simpleChildWindow:ChildWindow.OverlayBrush>
@@ -40,13 +40,25 @@
         <Grid Margin="0" Grid.Row="2" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label Content="English:" Grid.Row="0" Grid.Column="0"/>
-            <TextBox x:Name="_valueTextBox" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,5" Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" SpellCheck.IsEnabled="True" MinLines="3"/>
+            <Label x:Name="_valueEnglishLabel" Content="English:" Grid.Row="0" Grid.Column="0" Visibility="Collapsed"/>
+            <TextBox x:Name="_valueEnglishTextBox" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,5" Text="{Binding EnglishText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" SpellCheck.IsEnabled="True" MinLines="3" Visibility="Collapsed"/>
+            <Label x:Name="_valueGermanLabel" Content="German:" Grid.Row="1" Grid.Column="0" Visibility="Collapsed"/>
+            <TextBox x:Name="_valueGermanTextBox" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,5" Text="{Binding GermanText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" SpellCheck.IsEnabled="True" MinLines="3" Visibility="Collapsed"/>
+            <Label x:Name="_valueFrenchLabel" Content="French:" Grid.Row="2" Grid.Column="0" Visibility="Collapsed"/>
+            <TextBox x:Name="_valueFrenchTextBox" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,5" Text="{Binding FrenchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" SpellCheck.IsEnabled="True" MinLines="3" Visibility="Collapsed"/>
+            <Label x:Name="_valueItalianLabel" Content="Italian:" Grid.Row="3" Grid.Column="0" Visibility="Collapsed"/>
+            <TextBox x:Name="_valueItalianTextBox" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,5" Text="{Binding ItalianText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" SpellCheck.IsEnabled="True" MinLines="3" Visibility="Collapsed"/>
+            <Label x:Name="_valueSpanishLabel" Content="Spanish:" Grid.Row="4" Grid.Column="0" Visibility="Collapsed"/>
+            <TextBox x:Name="_valueSpanishTextBox" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,5" Text="{Binding SpanishText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" SpellCheck.IsEnabled="True" MinLines="3" Visibility="Collapsed"/>
         </Grid>
         <UniformGrid Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right"  Columns="2">
             <Button Content="Add" Margin="5" Click="OnAddClick" IsEnabled="{Binding IsValidKey, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource AccentedSquareButtonStyle}"/>

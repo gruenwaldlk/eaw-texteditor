@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -78,7 +76,14 @@ namespace eaw_texteditor.client.ui.main
                 e.Handled = true;
                 return;
             }
-            EditTextKeyWindow w = new EditTextKeyWindow(translationItem) { IsModal = true };
+
+            ObservableTranslationData english = null;
+            ObservableTranslationData german = null;
+            ObservableTranslationData french = null;
+            ObservableTranslationData italian = null;
+            ObservableTranslationData spanish = null;
+            PrepareEditWindow(translationItem, ref english, ref french, ref italian, ref german, ref spanish);
+            EditTextKeyWindow w = new EditTextKeyWindow(FormData.SelectedLanguage, english, german, french, italian, spanish) { IsModal = true };
             await this.ShowChildWindowAsync<bool>(w, ChildWindowManager.OverlayFillBehavior.FullWindow);
             if (w.FormData.TranslationChanged)
             {
@@ -185,15 +190,76 @@ namespace eaw_texteditor.client.ui.main
 
         private async void MenuItemNew_OnClick(object sender, RoutedEventArgs e)
         {
-            AddTextKeyWindow addWindow = new AddTextKeyWindow(new ObservableTranslationData(string.Empty, string.Empty)) {IsModal = true};
+            AddTextKeyWindow addWindow = new AddTextKeyWindow(FormData.SelectedLanguage, new ObservableTranslationData(string.Empty, string.Empty), new ObservableTranslationData(string.Empty, string.Empty), new ObservableTranslationData(string.Empty, string.Empty), new ObservableTranslationData(string.Empty, string.Empty), new ObservableTranslationData(string.Empty, string.Empty)) {IsModal = true};
             if (!await this.ShowChildWindowAsync<bool>(addWindow, ChildWindowManager.OverlayFillBehavior.FullWindow)) return;
-            PGTEXTS.SetText(addWindow.FormData.Key, addWindow.FormData.Value, FormData.SelectedLanguage);
-            if (FormData.Sources[FormData.SelectedLanguage].Source is ObservableCollection<ObservableTranslationData> src)
+            foreach (PGLanguage loadedLanguage in PGTEXTS.GetLoadedLanguages())
             {
-                FormData.IsEdited = true;
-                src.Add(addWindow.FormData.Translation);
+                switch (loadedLanguage)
+                {
+                    case PGLanguage.ENGLISH:
+                        if (string.IsNullOrEmpty(addWindow.FormData.EnglishText))
+                        {
+                            addWindow.FormData.EnglishText = $"TODO: {addWindow.FormData.FallbackText}";
+                        }
+                        PGTEXTS.SetText(addWindow.FormData.Key, addWindow.FormData.EnglishText, loadedLanguage);
+                        if (FormData.Sources[loadedLanguage].Source is ObservableCollection<ObservableTranslationData> src_e)
+                        {
+                            FormData.IsEdited = true;
+                            src_e.Add(addWindow.FormData.TranslationEnglish);
+                        }
+                        break;
+                    case PGLanguage.FRENCH:
+                        if (string.IsNullOrEmpty(addWindow.FormData.FrenchText))
+                        {
+                            addWindow.FormData.FrenchText = $"TODO: {addWindow.FormData.FallbackText}";
+                        }
+                        PGTEXTS.SetText(addWindow.FormData.Key, addWindow.FormData.FrenchText, loadedLanguage);
+                        if (FormData.Sources[loadedLanguage].Source is ObservableCollection<ObservableTranslationData> src_f)
+                        {
+                            FormData.IsEdited = true;
+                            src_f.Add(addWindow.FormData.TranslationFrench);
+                        }
+                        break;
+                    case PGLanguage.ITALIAN:
+                        if (string.IsNullOrEmpty(addWindow.FormData.ItalianText))
+                        {
+                            addWindow.FormData.ItalianText = $"TODO: {addWindow.FormData.FallbackText}";
+                        }
+                        PGTEXTS.SetText(addWindow.FormData.Key, addWindow.FormData.ItalianText, loadedLanguage);
+                        if (FormData.Sources[loadedLanguage].Source is ObservableCollection<ObservableTranslationData> src_i)
+                        {
+                            FormData.IsEdited = true;
+                            src_i.Add(addWindow.FormData.TranslationItalian);
+                        }
+                        break;
+                    case PGLanguage.GERMAN:
+                        if (string.IsNullOrEmpty(addWindow.FormData.GermanText))
+                        {
+                            addWindow.FormData.GermanText = $"TODO: {addWindow.FormData.FallbackText}";
+                        }
+                        PGTEXTS.SetText(addWindow.FormData.Key, addWindow.FormData.GermanText, loadedLanguage);
+                        if (FormData.Sources[loadedLanguage].Source is ObservableCollection<ObservableTranslationData> src_g)
+                        {
+                            FormData.IsEdited = true;
+                            src_g.Add(addWindow.FormData.TranslationGerman);
+                        }
+                        break;
+                    case PGLanguage.SPANISH:
+                        if (string.IsNullOrEmpty(addWindow.FormData.SpanishText))
+                        {
+                            addWindow.FormData.SpanishText = $"TODO: {addWindow.FormData.FallbackText}";
+                        }
+                        PGTEXTS.SetText(addWindow.FormData.Key, addWindow.FormData.SpanishText, loadedLanguage);
+                        if (FormData.Sources[loadedLanguage].Source is ObservableCollection<ObservableTranslationData> src_s)
+                        {
+                            FormData.IsEdited = true;
+                            src_s.Add(addWindow.FormData.TranslationSpanish);
+                        }
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
-
         }
 
         private void OnSearchClick(object sender, RoutedEventArgs e)
@@ -216,7 +282,13 @@ namespace eaw_texteditor.client.ui.main
                 e.Handled = true;
                 return;
             }
-            EditTextKeyWindow w = new EditTextKeyWindow(translationItem) { IsModal = true };
+            ObservableTranslationData english = null;
+            ObservableTranslationData german = null;
+            ObservableTranslationData french = null;
+            ObservableTranslationData italian = null;
+            ObservableTranslationData spanish = null;
+            PrepareEditWindow(translationItem, ref english, ref french, ref italian, ref german, ref spanish);
+            EditTextKeyWindow w = new EditTextKeyWindow(FormData.SelectedLanguage, english, german, french, italian, spanish) { IsModal = true };
             await this.ShowChildWindowAsync<bool>(w, ChildWindowManager.OverlayFillBehavior.FullWindow);
             if (w.FormData.TranslationChanged)
             {
@@ -224,6 +296,78 @@ namespace eaw_texteditor.client.ui.main
             }
             CurrentRightClickedObject = null;
             e.Handled = true;
+        }
+
+        private void PrepareEditWindow(ObservableTranslationData observableTranslationData, ref ObservableTranslationData english, ref ObservableTranslationData french, ref ObservableTranslationData italian, ref ObservableTranslationData german, ref ObservableTranslationData spanish)
+        {
+            foreach (PGLanguage loadedLanguage in PGTEXTS.GetLoadedLanguages())
+            {
+                switch (loadedLanguage)
+                {
+                    case PGLanguage.ENGLISH:
+                        if (FormData.Sources[loadedLanguage].Source is ObservableCollection<ObservableTranslationData> en)
+                        {
+                            english = en.FirstOrDefault(p => p.Key == observableTranslationData.Key);
+                            if (english == null)
+                            {
+                                english = new ObservableTranslationData(observableTranslationData.Key, string.Empty);
+                                en.Add(english);
+                            }
+                        }
+
+                        break;
+                    case PGLanguage.FRENCH:
+                        if (FormData.Sources[loadedLanguage].Source is ObservableCollection<ObservableTranslationData> fr)
+                        {
+                            french = fr.FirstOrDefault(p => p.Key == observableTranslationData.Key);
+                            if (french == null)
+                            {
+                                french = new ObservableTranslationData(observableTranslationData.Key, string.Empty);
+                                fr.Add(french);
+                            }
+                        }
+
+                        break;
+                    case PGLanguage.ITALIAN:
+                        if (FormData.Sources[loadedLanguage].Source is ObservableCollection<ObservableTranslationData> it)
+                        {
+                            italian = it.FirstOrDefault(p => p.Key == observableTranslationData.Key);
+                            if (italian == null)
+                            {
+                                italian = new ObservableTranslationData(observableTranslationData.Key, string.Empty);
+                                it.Add(italian);
+                            }
+                        }
+
+                        break;
+                    case PGLanguage.GERMAN:
+                        if (FormData.Sources[loadedLanguage].Source is ObservableCollection<ObservableTranslationData> ger)
+                        {
+                            german = ger.FirstOrDefault(p => p.Key == observableTranslationData.Key);
+                            if (german == null)
+                            {
+                                german = new ObservableTranslationData(observableTranslationData.Key, string.Empty);
+                                ger.Add(german);
+                            }
+                        }
+
+                        break;
+                    case PGLanguage.SPANISH:
+                        if (FormData.Sources[loadedLanguage].Source is ObservableCollection<ObservableTranslationData> sp)
+                        {
+                            spanish = sp.FirstOrDefault(p => p.Key == observableTranslationData.Key);
+                            if (spanish == null)
+                            {
+                                spanish = new ObservableTranslationData(observableTranslationData.Key, string.Empty);
+                                sp.Add(spanish);
+                            }
+                        }
+
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
         }
 
         private void _basicEditorDataGrid_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
