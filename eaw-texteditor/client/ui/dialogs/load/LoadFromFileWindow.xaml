@@ -28,7 +28,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="50"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="_loadFromXmlButton" Grid.Row="0" Grid.Column="1" Margin="0,5,0,5" HorizontalAlignment="Stretch" Content="Import from *.xml file ..." Style="{DynamicResource AccentedSquareButtonStyle}" Click="_loadFromXmlButton_OnClick"/>
-        <Button x:Name="_loadFromDatButton" Grid.Row="1" Grid.Column="1" Margin="0,5,0,5" HorizontalAlignment="Stretch" Content="Import from *.dat file ..." Style="{DynamicResource AccentedSquareButtonStyle}" Click="_loadFromDatButton_OnClick"/>
+        <Button x:Name="_loadFromXmlButton" Grid.Row="0" Grid.Column="1" Margin="0,5,0,5" HorizontalAlignment="Stretch" Content="Import from *.xml file ..." Style="{DynamicResource MetroFlatButton}" Click="_loadFromXmlButton_OnClick"/>
+        <Button x:Name="_loadFromDatButton" Grid.Row="1" Grid.Column="1" Margin="0,5,0,5" HorizontalAlignment="Stretch" Content="Import from *.dat file ..." Style="{DynamicResource MetroFlatButton}" Click="_loadFromDatButton_OnClick"/>
     </Grid>
 </simpleChildWindow:ChildWindow>

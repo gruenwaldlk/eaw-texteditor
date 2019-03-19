@@ -28,7 +28,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="50"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="_exportToXmlButton" Grid.Row="0" Grid.Column="1" Margin="0,5,0,5" HorizontalAlignment="Stretch" Content="Export to *.xml file ..." Style="{DynamicResource AccentedSquareButtonStyle}" Click="_exportToXmlButton_OnClick"/>
-        <Button x:Name="_exportToDatButton" Grid.Row="1" Grid.Column="1" Margin="0,5,0,5" HorizontalAlignment="Stretch" Content="Export to *.dat file ..." Style="{DynamicResource AccentedSquareButtonStyle}" Click="_exportToDatButton_OnClick"/>
+        <Button x:Name="_exportToXmlButton" Grid.Row="0" Grid.Column="1" Margin="0,5,0,5" HorizontalAlignment="Stretch" Content="Export to *.xml file ..." Style="{DynamicResource MetroFlatButton}" Click="_exportToXmlButton_OnClick"/>
+        <Button x:Name="_exportToDatButton" Grid.Row="1" Grid.Column="1" Margin="0,5,0,5" HorizontalAlignment="Stretch" Content="Export to *.dat file ..." Style="{DynamicResource MetroFlatButton}" Click="_exportToDatButton_OnClick"/>
     </Grid>
 </simpleChildWindow:ChildWindow>

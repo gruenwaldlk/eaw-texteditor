@@ -5,5 +5,14 @@
     <Setting Name="USR_LOADED_LANGUAGE" Type="ts.translation.common.typedefs.PGLanguage" Scope="User">
       <Value Profile="(Default)">ENGLISH</Value>
     </Setting>
+    <Setting Name="USR_BASE_THEME" Type="System.String" Scope="User">
+      <Value Profile="(Default)">BaseLight</Value>
+    </Setting>
+    <Setting Name="USR_ACCENT_COLOUR" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Cyan</Value>
+    </Setting>
+    <Setting Name="USR_MASTER_LANGUAGE" Type="ts.translation.common.typedefs.PGLanguage" Scope="User">
+      <Value Profile="(Default)">ENGLISH</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

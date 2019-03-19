@@ -25,6 +25,29 @@ namespace eaw_texteditor.shared.data.main
             }
         }
 
+        private bool _isTodoFilterActive;
+        public bool IsTodoFilterActive
+        {
+            get => _isTodoFilterActive;
+            set
+            {
+                _isTodoFilterActive = value;
+                TryRefresh();
+                OnPropertyChanged(nameof(IsTodoFilterActive));
+            }
+        }
+
+        private IEnumerable<PGLanguage> _languages = new List<PGLanguage>();
+
+        public IEnumerable<PGLanguage> Languages
+        {
+            get => _languages;
+            set
+            {
+                _languages = value;
+                OnPropertyChanged(nameof(Languages));
+            }
+        }
 
         private bool _isTranslationDataLoaded;
 
@@ -52,6 +75,7 @@ namespace eaw_texteditor.shared.data.main
                     UseSimpleSearch = true;
                     IsMatchCaseChecked = true;
                 }
+                TryRefresh();
                 OnPropertyChanged(nameof(IsAdvancedSearchCheckBoxChecked));
             }
         }
@@ -231,76 +255,108 @@ namespace eaw_texteditor.shared.data.main
                     }
                 }
             }
-
             return Key_UseSimpleSearch_IgnoreCase;
         }
 
         private bool Key_UseSimpleSearch_MatchCase(object value)
         {
             if (!(value is ObservableTranslationData entry)) return false;
+            if (IsTodoFilterActive)
+            {
+                return (string.IsNullOrEmpty(SearchTerm) || entry.Key.Contains(SearchTerm)) && entry.IsToDoItem;
+            }
             return string.IsNullOrEmpty(SearchTerm) || entry.Key.Contains(SearchTerm);
         }
 
         private bool Key_UseSimpleSearch_IgnoreCase(object value)
         {
             if (!(value is ObservableTranslationData entry)) return false;
+            if (IsTodoFilterActive)
+            {
+                return (string.IsNullOrEmpty(SearchTerm) || entry.Key.ToLower().Contains(SearchTerm.ToLower())) && entry.IsToDoItem;
+            }
             return string.IsNullOrEmpty(SearchTerm) || entry.Key.ToLower().Contains(SearchTerm.ToLower());
         }
 
         private bool Key_UseRegExSearch_MatchCase(object value)
         {
             if (!(value is ObservableTranslationData entry)) return false;
+            if (IsTodoFilterActive)
+            {
+                return (string.IsNullOrEmpty(SearchTerm) || SearchUtility.RegExMatch(SearchTerm, entry.Key)) && entry.IsToDoItem;
+            }
             return string.IsNullOrEmpty(SearchTerm) || SearchUtility.RegExMatch(SearchTerm, entry.Key);
         }
 
         private bool Key_UseRegExSearch_IgnoreCase(object value)
         {
             if (!(value is ObservableTranslationData entry)) return false;
+            if (IsTodoFilterActive)
+            {
+                return (string.IsNullOrEmpty(SearchTerm) || SearchUtility.RegExMatch(SearchTerm, entry.Key, RegexOptions.IgnoreCase)) && entry.IsToDoItem;
+            }
+
             return string.IsNullOrEmpty(SearchTerm) || SearchUtility.RegExMatch(SearchTerm, entry.Key, RegexOptions.IgnoreCase);
         }
         private bool Key_UsePatternMatchSearch_MatchCase(object value)
         {
             if (!(value is ObservableTranslationData entry)) return false;
+            if (IsTodoFilterActive)
+                return (string.IsNullOrEmpty(SearchTerm) || SearchUtility.PatternMatch(SearchTerm, entry.Key)) && entry.IsToDoItem;
             return string.IsNullOrEmpty(SearchTerm) || SearchUtility.PatternMatch(SearchTerm, entry.Key);
         }
         private bool Key_UsePatternMatchSearch_IgnoreCase(object value)
         {
             if (!(value is ObservableTranslationData entry)) return false;
+            if (IsTodoFilterActive)
+                return (string.IsNullOrEmpty(SearchTerm) || SearchUtility.PatternMatch(SearchTerm, entry.Key, RegexOptions.IgnoreCase)) && entry.IsToDoItem;
             return string.IsNullOrEmpty(SearchTerm) || SearchUtility.PatternMatch(SearchTerm, entry.Key, RegexOptions.IgnoreCase);
         }
 
         private bool Value_UseRegExSearch_MatchCase(object value)
         {
             if (!(value is ObservableTranslationData entry)) return false;
+            if (IsTodoFilterActive)
+                return (string.IsNullOrEmpty(SearchTerm) || SearchUtility.RegExMatch(SearchTerm, entry.Value)) && entry.IsToDoItem;
             return string.IsNullOrEmpty(SearchTerm) || SearchUtility.RegExMatch(SearchTerm, entry.Value);
         }
 
         private bool Value_UseRegExSearch_IgnoreCase(object value)
         {
             if (!(value is ObservableTranslationData entry)) return false;
+            if (IsTodoFilterActive)
+                return (string.IsNullOrEmpty(SearchTerm) || SearchUtility.RegExMatch(SearchTerm, entry.Value, RegexOptions.IgnoreCase)) && entry.IsToDoItem;
             return string.IsNullOrEmpty(SearchTerm) || SearchUtility.RegExMatch(SearchTerm, entry.Value, RegexOptions.IgnoreCase);
         }
 
         private bool Value_UseSimpleSearch_MatchCase(object value)
         {
             if (!(value is ObservableTranslationData entry)) return false;
+            if (IsTodoFilterActive)
+                return (string.IsNullOrEmpty(SearchTerm) || entry.Value.Contains(SearchTerm)) && entry.IsToDoItem;
             return string.IsNullOrEmpty(SearchTerm) || entry.Value.Contains(SearchTerm);
         }
 
         private bool Value_UseSimpleSearch_IgnoreCase(object value)
         {
             if (!(value is ObservableTranslationData entry)) return false;
+            if (IsTodoFilterActive)
+                return (string.IsNullOrEmpty(SearchTerm) || entry.Value.ToLower().Contains(SearchTerm.ToLower())) && entry.IsToDoItem;
             return string.IsNullOrEmpty(SearchTerm) || entry.Value.ToLower().Contains(SearchTerm.ToLower());
         }
 
         private bool Value_UsePatternMatchSearch_MatchCase(object value)
         {
             if (!(value is ObservableTranslationData entry)) return false;
+            if (IsTodoFilterActive)
+                return (string.IsNullOrEmpty(SearchTerm) || SearchUtility.PatternMatch(SearchTerm, entry.Value)) && entry.IsToDoItem;
             return string.IsNullOrEmpty(SearchTerm) || SearchUtility.PatternMatch(SearchTerm, entry.Value);
         }
         private bool Value_UsePatternMatchSearch_IgnoreCase(object value)
         {
             if (!(value is ObservableTranslationData entry)) return false;
+            if (IsTodoFilterActive)
+                return (string.IsNullOrEmpty(SearchTerm) || SearchUtility.PatternMatch(SearchTerm, entry.Value, RegexOptions.IgnoreCase)) && entry.IsToDoItem;
             return string.IsNullOrEmpty(SearchTerm) || SearchUtility.PatternMatch(SearchTerm, entry.Value, RegexOptions.IgnoreCase);
         }
 
@@ -311,8 +367,8 @@ namespace eaw_texteditor.shared.data.main
             get => _translationCollection;
             set {
                 _translationCollection = value;
+                TryRefresh();
                 OnPropertyChanged(nameof(TranslationCollection));
-
             }
         }
 
@@ -340,7 +396,8 @@ namespace eaw_texteditor.shared.data.main
 
         Dictionary<PGLanguage, CollectionViewSource> _sources = new Dictionary<PGLanguage, CollectionViewSource>();
 
-        public Dictionary<PGLanguage, CollectionViewSource> Sources { get => _sources;
+        public Dictionary<PGLanguage, CollectionViewSource> Sources {
+            get => _sources;
             set
             {
                 _sources = value;

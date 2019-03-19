@@ -152,6 +152,7 @@
     </Compile>
     <Compile Include="shared\common\util\search\SearchUtility.cs" />
     <Compile Include="shared\common\util\ui\UiUtility.cs" />
+    <Compile Include="shared\data\dialogs\add\AddTextKeyWindowData.cs" />
     <Compile Include="shared\data\dialogs\edit\EditTextKeyWindowData.cs" />
     <Compile Include="shared\data\AWindowData.cs" />
     <Compile Include="shared\data\dialogs\export\ExportToFileWindowData.cs" />
