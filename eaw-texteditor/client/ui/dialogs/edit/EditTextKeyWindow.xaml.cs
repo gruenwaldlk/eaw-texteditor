@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using eaw_texteditor.Properties;
 using eaw_texteditor.shared.data.dialogs.edit;
 using MahApps.Metro.SimpleChildWindow;
 using ts.translation;
@@ -27,7 +26,7 @@ namespace eaw_texteditor.client.ui.dialogs.edit
             DataContext = FormData;
         }
 
-        private void OnClosingFinished(object sender, System.Windows.RoutedEventArgs e)
+        private void OnClosingFinished(object sender, RoutedEventArgs e)
         {
             foreach (PGLanguage loadedLanguage in PGTEXTS.GetLoadedLanguages())
             {

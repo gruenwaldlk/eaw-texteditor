@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows;
-using eaw_texteditor.shared.data.dialogs.edit;
+using eaw_texteditor.shared.data.dialogs.add;
 using MahApps.Metro.SimpleChildWindow;
 using ts.translation;
 using ts.translation.common.typedefs;
@@ -13,11 +13,11 @@ namespace eaw_texteditor.client.ui.dialogs.add
     /// </summary>
     public partial class AddTextKeyWindow : ChildWindow
     {
-        internal EditTextKeyWindowData FormData { get; set; }
+        internal AddTextKeyWindowData FormData { get; set; }
         public AddTextKeyWindow(PGLanguage selectedLanguage, ObservableTranslationData translationEnglish, ObservableTranslationData translationGerman, ObservableTranslationData translationFrench, ObservableTranslationData translationItalian, ObservableTranslationData translationSpanish)
         {
             InitializeComponent();
-            FormData = new EditTextKeyWindowData() {SelectedLanguage = selectedLanguage, TranslationEnglish = translationEnglish, TranslationGerman = translationGerman, TranslationFrench = translationFrench, TranslationItalian = translationItalian, TranslationSpanish = translationSpanish};
+            FormData = new AddTextKeyWindowData() {SelectedLanguage = selectedLanguage, TranslationEnglish = translationEnglish, TranslationGerman = translationGerman, TranslationFrench = translationFrench, TranslationItalian = translationItalian, TranslationSpanish = translationSpanish};
             DataContext = FormData;
             FormData.IsKeyEditable = true;
             FormData.IsValidKey = false;

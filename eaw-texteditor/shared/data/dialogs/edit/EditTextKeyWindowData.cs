@@ -10,7 +10,7 @@ using ts.translation.data.holder.observables;
 
 namespace eaw_texteditor.shared.data.dialogs.edit
 {
-    class EditTextKeyWindowData : INotifyPropertyChanged
+    internal class EditTextKeyWindowData : INotifyPropertyChanged
     {
         private ObservableTranslationData _translationEnglish;
         private ObservableTranslationData _translationGerman;
@@ -241,16 +241,18 @@ namespace eaw_texteditor.shared.data.dialogs.edit
             }
         }
 
-        private void SetValidStateForKeyTextBox()
+        protected virtual void SetValidStateForKeyTextBox()
         {
             if (!IsValidKey)
             {
                 BackgroundColor = new SolidColorBrush() {Color = Color.FromArgb(100, 220, 20, 60)};
                 IsBoltVisible = Visibility.Visible;
+                IsInvalidVisible = Visibility.Visible;
             }
             else{
                 BackgroundColor = new SolidColorBrush() {Color = Color.FromArgb(255, 255, 255, 255)};
                 IsBoltVisible = Visibility.Collapsed;
+                IsInvalidVisible = Visibility.Visible;
             }
         }
 
@@ -266,7 +268,7 @@ namespace eaw_texteditor.shared.data.dialogs.edit
             }
         }
 
-        private string DoValidate(string value)
+        protected virtual string DoValidate(string value)
         {
             if (string.IsNullOrEmpty(value))
             {
@@ -288,6 +290,18 @@ namespace eaw_texteditor.shared.data.dialogs.edit
             {
                 _isBoltVisible = value;
                 OnPropertyChanged(nameof(IsBoltVisible));
+            }
+        }
+
+        private Visibility _isInvalidVisible = Visibility.Collapsed;
+
+        public Visibility IsInvalidVisible
+        {
+            get => _isInvalidVisible;
+            set
+            {
+                _isInvalidVisible = value;
+                OnPropertyChanged(nameof(IsInvalidVisible));
             }
         }
 

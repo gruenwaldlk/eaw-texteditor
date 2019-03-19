@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -49,7 +50,8 @@ namespace eaw_texteditor.client.ui.main
 
         private void AdvancedSearchCheckBoxCheckedChanged(object sender, RoutedEventArgs e)
         {
-            _advancedSearchFormGroupBox.IsEnabled = FormData.IsAdvancedSearchCheckBoxChecked;
+            _advancedSearchFormGrid.IsEnabled = FormData.IsAdvancedSearchCheckBoxChecked;
+            _advancedSearchFormGrid.Visibility = _advancedSearchFormGrid.IsEnabled ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private async void _settingsExecuteButton_Click(object sender, RoutedEventArgs e)
@@ -100,22 +102,23 @@ namespace eaw_texteditor.client.ui.main
             {
                 return;
             }
-
             IsEnabled = false;
-            _mainBoxTabControl.Visibility = Visibility.Collapsed;
+            //_mainBoxTabControl.Visibility = Visibility.Collapsed;
             _mainBoxLoadingControl.Visibility = Visibility.Visible;
             try
             {
                 PGTEXTS.LoadFromFile(childWindow.FormData.ImportPath, childWindow.FormData.ImportType);
+                ImportFromPgTextSource();
+                bool userLangCanBeUsed = false;
                 foreach (PGLanguage loadedLanguage in PGTEXTS.GetLoadedLanguages())
                 {
-                    if (FormData.Sources.ContainsKey(loadedLanguage))
+                    if (loadedLanguage == Properties.Settings.Default.USR_LOADED_LANGUAGE)
                     {
-                        FormData.Sources.Remove(loadedLanguage);
+                        userLangCanBeUsed = true;
                     }
-                    FormData.Sources.Add(loadedLanguage, new CollectionViewSource() {Source = ObservableTranslationUtility.GetTranslationDataAsObservable(loadedLanguage)});
                 }
-                FormData.SelectedLanguage = Properties.Settings.Default.USR_LOADED_LANGUAGE;
+                FormData.SelectedLanguage = userLangCanBeUsed ? Properties.Settings.Default.USR_LOADED_LANGUAGE : PGTEXTS.GetLoadedLanguages().FirstOrDefault();
+                FormData.Languages = PGTEXTS.GetLoadedLanguages();
                 FormData.IsTranslationDataLoaded = true;
             }
             catch (Exception ex)
@@ -123,7 +126,7 @@ namespace eaw_texteditor.client.ui.main
                 if (!IsEnabled)
                 {
                     IsEnabled = true;
-                    _mainBoxTabControl.Visibility = Visibility.Visible;
+                    //_mainBoxTabControl.Visibility = Visibility.Visible;
                     _mainBoxLoadingControl.Visibility = Visibility.Collapsed;
                 }
                 await this.ShowMessageAsync("Warning!", $"Something went wrong.\n{ex}");
@@ -131,13 +134,31 @@ namespace eaw_texteditor.client.ui.main
 
             if (IsEnabled) return;
             IsEnabled = true;
-            _mainBoxTabControl.Visibility = Visibility.Visible;
+            //_mainBoxTabControl.Visibility = Visibility.Visible;
             _mainBoxLoadingControl.Visibility = Visibility.Collapsed;
+        }
+
+        private void ImportFromPgTextSource()
+        {
+            foreach (PGLanguage loadedLanguage in PGTEXTS.GetLoadedLanguages())
+            {
+                if (FormData.Sources.ContainsKey(loadedLanguage))
+                {
+                    FormData.Sources.Remove(loadedLanguage);
+                }
+
+                FormData.Sources.Add(loadedLanguage, new CollectionViewSource() {Source = ObservableTranslationUtility.GetTranslationDataAsObservable(loadedLanguage)});
+            }
         }
 
         private async void _exportExecuteButton_Click(object sender, RoutedEventArgs e)
         {
-            ExportToFileWindow childWindow = new ExportToFileWindow() { IsModal = true};
+            await ExportToFile();
+        }
+
+        private async Task ExportToFile()
+        {
+            ExportToFileWindow childWindow = new ExportToFileWindow() {IsModal = true};
             await this.ShowChildWindowAsync<bool>(childWindow, ChildWindowManager.OverlayFillBehavior.FullWindow);
             if (!childWindow.FormData.ResultOk)
             {
@@ -154,7 +175,7 @@ namespace eaw_texteditor.client.ui.main
             }
 
             IsEnabled = false;
-            _mainBoxTabControl.Visibility = Visibility.Collapsed;
+            //_mainBoxTabControl.Visibility = Visibility.Collapsed;
             _mainBoxLoadingControl.Visibility = Visibility.Visible;
             try
             {
@@ -165,16 +186,17 @@ namespace eaw_texteditor.client.ui.main
                 if (!IsEnabled)
                 {
                     IsEnabled = true;
-                    _mainBoxTabControl.Visibility = Visibility.Visible;
+                    //_mainBoxTabControl.Visibility = Visibility.Visible;
                     _mainBoxLoadingControl.Visibility = Visibility.Collapsed;
                 }
+
                 await this.ShowMessageAsync("Warning!", $"Something went wrong.\n{ex}");
             }
 
             FormData.IsEdited = false;
             if (IsEnabled) return;
             IsEnabled = true;
-            _mainBoxTabControl.Visibility = Visibility.Visible;
+            //_mainBoxTabControl.Visibility = Visibility.Visible;
             _mainBoxLoadingControl.Visibility = Visibility.Collapsed;
         }
 
@@ -190,7 +212,7 @@ namespace eaw_texteditor.client.ui.main
 
         private async void MenuItemNew_OnClick(object sender, RoutedEventArgs e)
         {
-            AddTextKeyWindow addWindow = new AddTextKeyWindow(FormData.SelectedLanguage, new ObservableTranslationData(string.Empty, string.Empty), new ObservableTranslationData(string.Empty, string.Empty), new ObservableTranslationData(string.Empty, string.Empty), new ObservableTranslationData(string.Empty, string.Empty), new ObservableTranslationData(string.Empty, string.Empty)) {IsModal = true};
+            AddTextKeyWindow addWindow = new AddTextKeyWindow(FormData.SelectedLanguage, new ObservableTranslationData(string.Empty, string.Empty, true), new ObservableTranslationData(string.Empty, string.Empty, true), new ObservableTranslationData(string.Empty, string.Empty, true), new ObservableTranslationData(string.Empty, string.Empty, true), new ObservableTranslationData(string.Empty, string.Empty, true)) {IsModal = true};
             if (!await this.ShowChildWindowAsync<bool>(addWindow, ChildWindowManager.OverlayFillBehavior.FullWindow)) return;
             foreach (PGLanguage loadedLanguage in PGTEXTS.GetLoadedLanguages())
             {
@@ -310,7 +332,7 @@ namespace eaw_texteditor.client.ui.main
                             english = en.FirstOrDefault(p => p.Key == observableTranslationData.Key);
                             if (english == null)
                             {
-                                english = new ObservableTranslationData(observableTranslationData.Key, string.Empty);
+                                english = new ObservableTranslationData(observableTranslationData.Key, string.Empty, true);
                                 en.Add(english);
                             }
                         }
@@ -322,7 +344,7 @@ namespace eaw_texteditor.client.ui.main
                             french = fr.FirstOrDefault(p => p.Key == observableTranslationData.Key);
                             if (french == null)
                             {
-                                french = new ObservableTranslationData(observableTranslationData.Key, string.Empty);
+                                french = new ObservableTranslationData(observableTranslationData.Key, string.Empty, true);
                                 fr.Add(french);
                             }
                         }
@@ -334,7 +356,7 @@ namespace eaw_texteditor.client.ui.main
                             italian = it.FirstOrDefault(p => p.Key == observableTranslationData.Key);
                             if (italian == null)
                             {
-                                italian = new ObservableTranslationData(observableTranslationData.Key, string.Empty);
+                                italian = new ObservableTranslationData(observableTranslationData.Key, string.Empty, true);
                                 it.Add(italian);
                             }
                         }
@@ -346,7 +368,7 @@ namespace eaw_texteditor.client.ui.main
                             german = ger.FirstOrDefault(p => p.Key == observableTranslationData.Key);
                             if (german == null)
                             {
-                                german = new ObservableTranslationData(observableTranslationData.Key, string.Empty);
+                                german = new ObservableTranslationData(observableTranslationData.Key, string.Empty, true);
                                 ger.Add(german);
                             }
                         }
@@ -358,7 +380,7 @@ namespace eaw_texteditor.client.ui.main
                             spanish = sp.FirstOrDefault(p => p.Key == observableTranslationData.Key);
                             if (spanish == null)
                             {
-                                spanish = new ObservableTranslationData(observableTranslationData.Key, string.Empty);
+                                spanish = new ObservableTranslationData(observableTranslationData.Key, string.Empty, true);
                                 sp.Add(spanish);
                             }
                         }
@@ -391,6 +413,26 @@ namespace eaw_texteditor.client.ui.main
             if (shutdown)
             {
                 Application.Current.Shutdown();
+            }
+        }
+
+        private async void _verifyIntegrityButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageDialogResult dialogResult = await this.ShowMessageAsync("Warning!", "Performing a data set fixup will require you to save the translation data to a location of your choice in order to ensure you do not lose changes made by the fixup process.", MessageDialogStyle.AffirmativeAndNegative);
+            if (dialogResult != MessageDialogResult.Affirmative)
+            {
+                return;
+            }
+            try
+            {
+                PGTEXTS.PerformTranslationFixup(Properties.Settings.Default.USR_MASTER_LANGUAGE);
+                ImportFromPgTextSource();
+                FormData.TryRefresh();
+                await ExportToFile();
+            }
+            catch (Exception ex)
+            {
+                await this.ShowMessageAsync("Warning!", $"Something went wrong.\n{ex}");
             }
         }
     }

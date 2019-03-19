@@ -24,6 +24,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50"/>
@@ -36,8 +37,9 @@
                 <VisualBrush Visual="{iconPacks:FontAwesome BoltSolid}"/>
             </Rectangle.OpacityMask>
         </Rectangle>
-        <TextBlock Grid.Row="1" Grid.Column="1" Foreground="Crimson" Text="The text key should only contain uppercase letters, numbers and underscores. Some hardcoded vanilla keys do not follow this convention, so the message can be disregarded for those keys." Visibility="{Binding IsBoltVisible}" Margin="0" TextWrapping="Wrap"/>
-        <Grid Margin="0" Grid.Row="2" Grid.Column="1">
+        <TextBlock Grid.Row="1" Grid.Column="1" Foreground="Crimson" Text="The text key should only contain uppercase letters, numbers and underscores. Some hardcoded vanilla keys do not follow this convention, so the message can be disregarded for those keys." Visibility="{Binding IsInvalidVisible}" Margin="0" TextWrapping="Wrap"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Foreground="Crimson" Text="The key already exists." Visibility="{Binding IsDuplicateVisible}" Margin="0" TextWrapping="Wrap"/>
+        <Grid Margin="0" Grid.Row="3" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -60,9 +62,9 @@
             <Label x:Name="_valueSpanishLabel" Content="Spanish:" Grid.Row="4" Grid.Column="0" Visibility="Collapsed"/>
             <TextBox x:Name="_valueSpanishTextBox" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,5" Text="{Binding SpanishText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" SpellCheck.IsEnabled="True" MinLines="3" Visibility="Collapsed"/>
         </Grid>
-        <UniformGrid Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right"  Columns="2">
-            <Button Content="Add" Margin="5" Click="OnAddClick" IsEnabled="{Binding IsValidKey, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource AccentedSquareButtonStyle}"/>
-            <Button Content="Cancel" IsDefault="True" Margin="5" Click="OnCancelClick" Style="{DynamicResource AccentedSquareButtonStyle}"/>
+        <UniformGrid Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right"  Columns="2">
+            <Button Content="Add" Margin="5" Click="OnAddClick" IsEnabled="{Binding IsValid, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource MetroFlatButton}"/>
+            <Button Content="Cancel" IsDefault="True" Margin="5" Click="OnCancelClick" Style="{DynamicResource MetroFlatButton}"/>
         </UniformGrid>
     </Grid>
 </simpleChildWindow:ChildWindow>
