@@ -1,0 +1,3 @@
+[submodule "ts.translation"]
+	path = ts.translation
+	url = https://github.com/KadVenku/ts.translation.git

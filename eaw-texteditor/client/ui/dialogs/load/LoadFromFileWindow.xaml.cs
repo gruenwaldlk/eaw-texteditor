@@ -1,9 +1,8 @@
-﻿using System.Windows;
-using System.Windows.Forms;
-using eaw_texteditor.shared.data.dialogs.load;
+﻿using eaw_texteditor.shared.data.dialogs.load;
 using MahApps.Metro.SimpleChildWindow;
+using System.Windows;
+using System.Windows.Forms;
 using ts.translation.common.typedefs;
-using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace eaw_texteditor.client.ui.dialogs.load
 {
@@ -37,9 +36,9 @@ namespace eaw_texteditor.client.ui.dialogs.load
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     FormData.ImportPath = openFileDialog.FileName;
-                    FormData.ImportType = TSFileTypes.FileTypeXml;
+                    FormData.ImportType = TSFileTypes.FileTypeXmlv1;
                     FormData.ResultOk = true;
-                    this.Close();
+                    Close();
                 }
             }
         }
@@ -57,7 +56,7 @@ namespace eaw_texteditor.client.ui.dialogs.load
                     FormData.ImportPath = openFileDialog.FileName;
                     FormData.ImportType = TSFileTypes.FileTypeDat;
                     FormData.ResultOk = true;
-                    this.Close();
+                    Close();
                 }
             }
         }

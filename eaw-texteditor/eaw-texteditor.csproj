@@ -235,8 +235,8 @@
     <Resource Include="eaw-icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\yvaw-translationmanifest\ts.translation\ts.translation.csproj">
-      <Project>{1fd1fc67-71ce-4c2b-a552-2d16d9b3629a}</Project>
+    <ProjectReference Include="..\ts.translation\ts.translation\ts.translation.csproj">
+      <Project>{FF5D1D98-73FD-45A1-B303-FFC31E39EF73}</Project>
       <Name>ts.translation</Name>
     </ProjectReference>
   </ItemGroup>

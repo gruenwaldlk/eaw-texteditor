@@ -1,7 +1,7 @@
-﻿using System.Windows;
-using eaw_texteditor.shared.data.dialogs.export;
+﻿using eaw_texteditor.shared.data.dialogs.export;
 using MahApps.Metro.SimpleChildWindow;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using System.Windows;
 using ts.translation.common.typedefs;
 
 namespace eaw_texteditor.client.ui.dialogs.export
@@ -11,7 +11,8 @@ namespace eaw_texteditor.client.ui.dialogs.export
     /// </summary>
     public partial class ExportToFileWindow : ChildWindow
     {
-        internal  ExportToFileWindowData FormData { get; set; }
+        internal ExportToFileWindowData FormData { get; set; }
+
         public ExportToFileWindow()
         {
             InitializeComponent();
@@ -35,9 +36,9 @@ namespace eaw_texteditor.client.ui.dialogs.export
                 if (saveFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
                 {
                     FormData.ExportPath = saveFileDialog.FileName;
-                    FormData.ExportType = TSFileTypes.FileTypeXml;
+                    FormData.ExportType = TSFileTypes.FileTypeXmlv1;
                     FormData.ResultOk = true;
-                    this.Close();
+                    Close();
                 }
             }
         }
@@ -55,7 +56,7 @@ namespace eaw_texteditor.client.ui.dialogs.export
                     FormData.ExportPath = saveFileDialog.FileName;
                     FormData.ExportType = TSFileTypes.FileTypeDat;
                     FormData.ResultOk = true;
-                    this.Close();
+                    Close();
                 }
             }
         }

@@ -1,7 +1,7 @@
+using eaw_texteditor.shared.data.dialogs.edit;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Media;
-using eaw_texteditor.shared.data.dialogs.edit;
 using ts.translation;
 
 namespace eaw_texteditor.shared.data.dialogs.add
@@ -9,6 +9,7 @@ namespace eaw_texteditor.shared.data.dialogs.add
     internal class AddTextKeyWindowData : EditTextKeyWindowData
     {
         private bool _isDuplicate;
+
         public bool IsDuplicate
         {
             get => _isDuplicate;
@@ -56,6 +57,7 @@ namespace eaw_texteditor.shared.data.dialogs.add
             }
             OnPropertyChanged(nameof(IsValid));
         }
+
         protected override string DoValidate(string value)
         {
             if (string.IsNullOrEmpty(value))

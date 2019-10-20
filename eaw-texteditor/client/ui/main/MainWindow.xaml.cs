@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
-using eaw_texteditor.client.ui.dialogs.add;
+﻿using eaw_texteditor.client.ui.dialogs.add;
 using eaw_texteditor.client.ui.dialogs.edit;
 using eaw_texteditor.client.ui.dialogs.export;
 using eaw_texteditor.client.ui.dialogs.load;
@@ -17,6 +8,15 @@ using eaw_texteditor.shared.data.main;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.SimpleChildWindow;
+using System;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
 using ts.translation;
 using ts.translation.common.typedefs;
 using ts.translation.common.util.observable;
@@ -56,7 +56,7 @@ namespace eaw_texteditor.client.ui.main
 
         private async void _settingsExecuteButton_Click(object sender, RoutedEventArgs e)
         {
-            SettingsWindow childWindow = new SettingsWindow() {IsModal = true};
+            SettingsWindow childWindow = new SettingsWindow() { IsModal = true };
             await this.ShowChildWindowAsync<bool>(childWindow, ChildWindowManager.OverlayFillBehavior.FullWindow);
             FormData.SelectedLanguage = childWindow.FormData.SelectedLanguage;
         }
@@ -71,8 +71,11 @@ namespace eaw_texteditor.client.ui.main
 
             DependencyObject source = (DependencyObject)e.OriginalSource;
             DataGridRow row = UiUtility.TryFindParent<DataGridRow>(source);
-            if (row == null) return;
-            
+            if (row == null)
+            {
+                return;
+            }
+
             if (!(row.Item is ObservableTranslationData translationItem))
             {
                 e.Handled = true;
@@ -132,7 +135,11 @@ namespace eaw_texteditor.client.ui.main
                 await this.ShowMessageAsync("Warning!", $"Something went wrong.\n{ex}");
             }
 
-            if (IsEnabled) return;
+            if (IsEnabled)
+            {
+                return;
+            }
+
             IsEnabled = true;
             //_mainBoxTabControl.Visibility = Visibility.Visible;
             _mainBoxLoadingControl.Visibility = Visibility.Collapsed;
@@ -147,7 +154,7 @@ namespace eaw_texteditor.client.ui.main
                     FormData.Sources.Remove(loadedLanguage);
                 }
 
-                FormData.Sources.Add(loadedLanguage, new CollectionViewSource() {Source = ObservableTranslationUtility.GetTranslationDataAsObservable(loadedLanguage)});
+                FormData.Sources.Add(loadedLanguage, new CollectionViewSource() { Source = ObservableTranslationUtility.GetTranslationDataAsObservable(loadedLanguage) });
             }
         }
 
@@ -158,7 +165,7 @@ namespace eaw_texteditor.client.ui.main
 
         private async Task ExportToFile()
         {
-            ExportToFileWindow childWindow = new ExportToFileWindow() {IsModal = true};
+            ExportToFileWindow childWindow = new ExportToFileWindow() { IsModal = true };
             await this.ShowChildWindowAsync<bool>(childWindow, ChildWindowManager.OverlayFillBehavior.FullWindow);
             if (!childWindow.FormData.ResultOk)
             {
@@ -167,7 +174,7 @@ namespace eaw_texteditor.client.ui.main
 
             if (Directory.EnumerateFileSystemEntries(childWindow.FormData.ExportPath).Any())
             {
-                MessageDialogResult dialogResult = await this.ShowMessageAsync("Warning!", $"The export folder is not empty.\nThis may overwrite {(childWindow.FormData.ExportType == TSFileTypes.FileTypeXml ? "an existing \'TranslationManifest.xml\' file." : "any existing \'MASTERTEXTFILE_{LANGUAGE}.DAT\' files.")}\nCurrently selected directory: {childWindow.FormData.ExportPath}\n\nContinue exporting?", MessageDialogStyle.AffirmativeAndNegative);
+                MessageDialogResult dialogResult = await this.ShowMessageAsync("Warning!", $"The export folder is not empty.\nThis may overwrite {(childWindow.FormData.ExportType == TSFileTypes.FileTypeXmlv1 ? "an existing \'TranslationManifest.xml\' file." : "any existing \'MASTERTEXTFILE_{LANGUAGE}.DAT\' files.")}\nCurrently selected directory: {childWindow.FormData.ExportPath}\n\nContinue exporting?", MessageDialogStyle.AffirmativeAndNegative);
                 if (dialogResult != MessageDialogResult.Affirmative)
                 {
                     return;
@@ -194,7 +201,11 @@ namespace eaw_texteditor.client.ui.main
             }
 
             FormData.IsEdited = false;
-            if (IsEnabled) return;
+            if (IsEnabled)
+            {
+                return;
+            }
+
             IsEnabled = true;
             //_mainBoxTabControl.Visibility = Visibility.Visible;
             _mainBoxLoadingControl.Visibility = Visibility.Collapsed;
@@ -212,8 +223,12 @@ namespace eaw_texteditor.client.ui.main
 
         private async void MenuItemNew_OnClick(object sender, RoutedEventArgs e)
         {
-            AddTextKeyWindow addWindow = new AddTextKeyWindow(FormData.SelectedLanguage, new ObservableTranslationData(string.Empty, string.Empty, true), new ObservableTranslationData(string.Empty, string.Empty, true), new ObservableTranslationData(string.Empty, string.Empty, true), new ObservableTranslationData(string.Empty, string.Empty, true), new ObservableTranslationData(string.Empty, string.Empty, true)) {IsModal = true};
-            if (!await this.ShowChildWindowAsync<bool>(addWindow, ChildWindowManager.OverlayFillBehavior.FullWindow)) return;
+            AddTextKeyWindow addWindow = new AddTextKeyWindow(FormData.SelectedLanguage, new ObservableTranslationData(string.Empty, string.Empty, true), new ObservableTranslationData(string.Empty, string.Empty, true), new ObservableTranslationData(string.Empty, string.Empty, true), new ObservableTranslationData(string.Empty, string.Empty, true), new ObservableTranslationData(string.Empty, string.Empty, true)) { IsModal = true };
+            if (!await this.ShowChildWindowAsync<bool>(addWindow, ChildWindowManager.OverlayFillBehavior.FullWindow))
+            {
+                return;
+            }
+
             foreach (PGLanguage loadedLanguage in PGTEXTS.GetLoadedLanguages())
             {
                 switch (loadedLanguage)
@@ -230,6 +245,7 @@ namespace eaw_texteditor.client.ui.main
                             src_e.Add(addWindow.FormData.TranslationEnglish);
                         }
                         break;
+
                     case PGLanguage.FRENCH:
                         if (string.IsNullOrEmpty(addWindow.FormData.FrenchText))
                         {
@@ -242,6 +258,7 @@ namespace eaw_texteditor.client.ui.main
                             src_f.Add(addWindow.FormData.TranslationFrench);
                         }
                         break;
+
                     case PGLanguage.ITALIAN:
                         if (string.IsNullOrEmpty(addWindow.FormData.ItalianText))
                         {
@@ -254,6 +271,7 @@ namespace eaw_texteditor.client.ui.main
                             src_i.Add(addWindow.FormData.TranslationItalian);
                         }
                         break;
+
                     case PGLanguage.GERMAN:
                         if (string.IsNullOrEmpty(addWindow.FormData.GermanText))
                         {
@@ -266,6 +284,7 @@ namespace eaw_texteditor.client.ui.main
                             src_g.Add(addWindow.FormData.TranslationGerman);
                         }
                         break;
+
                     case PGLanguage.SPANISH:
                         if (string.IsNullOrEmpty(addWindow.FormData.SpanishText))
                         {
@@ -278,6 +297,7 @@ namespace eaw_texteditor.client.ui.main
                             src_s.Add(addWindow.FormData.TranslationSpanish);
                         }
                         break;
+
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -338,6 +358,7 @@ namespace eaw_texteditor.client.ui.main
                         }
 
                         break;
+
                     case PGLanguage.FRENCH:
                         if (FormData.Sources[loadedLanguage].Source is ObservableCollection<ObservableTranslationData> fr)
                         {
@@ -350,6 +371,7 @@ namespace eaw_texteditor.client.ui.main
                         }
 
                         break;
+
                     case PGLanguage.ITALIAN:
                         if (FormData.Sources[loadedLanguage].Source is ObservableCollection<ObservableTranslationData> it)
                         {
@@ -362,6 +384,7 @@ namespace eaw_texteditor.client.ui.main
                         }
 
                         break;
+
                     case PGLanguage.GERMAN:
                         if (FormData.Sources[loadedLanguage].Source is ObservableCollection<ObservableTranslationData> ger)
                         {
@@ -374,6 +397,7 @@ namespace eaw_texteditor.client.ui.main
                         }
 
                         break;
+
                     case PGLanguage.SPANISH:
                         if (FormData.Sources[loadedLanguage].Source is ObservableCollection<ObservableTranslationData> sp)
                         {
@@ -386,6 +410,7 @@ namespace eaw_texteditor.client.ui.main
                         }
 
                         break;
+
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -394,7 +419,7 @@ namespace eaw_texteditor.client.ui.main
 
         private void _basicEditorDataGrid_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            CurrentRightClickedObject = (DependencyObject) e.OriginalSource;
+            CurrentRightClickedObject = (DependencyObject)e.OriginalSource;
         }
 
         private async void MainWindow_OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -403,7 +428,7 @@ namespace eaw_texteditor.client.ui.main
             if (FormData.IsEdited)
             {
                 e.Cancel = true;
-                MetroDialogSettings mySettings = new MetroDialogSettings() {AffirmativeButtonText = "Quit", NegativeButtonText = "Cancel", AnimateShow = true, AnimateHide = false};
+                MetroDialogSettings mySettings = new MetroDialogSettings() { AffirmativeButtonText = "Quit", NegativeButtonText = "Cancel", AnimateShow = true, AnimateHide = false };
 
                 MessageDialogResult result = await this.ShowMessageAsync("Quit application?", "The current data contains unsaved changes!\n" + "Closing the application will result in the loss of all changes.\n" + "If you want to keep your changes, export the data before continuing.\n\n" + "Continue without exporting?", MessageDialogStyle.AffirmativeAndNegative, mySettings);
 
