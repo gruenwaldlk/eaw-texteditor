@@ -5,27 +5,45 @@ VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eaw-texteditor", "eaw-texteditor\eaw-texteditor.csproj", "{4105FDC3-AEAF-4E80-8046-3DD34C3E3F2E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ts.translation", "ts.translation\ts.translation\ts.translation.csproj", "{FF5D1D98-73FD-45A1-B303-FFC31E39EF73}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4105FDC3-AEAF-4E80-8046-3DD34C3E3F2E}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{4105FDC3-AEAF-4E80-8046-3DD34C3E3F2E}.Debug|x64.ActiveCfg = Debug|x64
 		{4105FDC3-AEAF-4E80-8046-3DD34C3E3F2E}.Debug|x64.Build.0 = Debug|x64
 		{4105FDC3-AEAF-4E80-8046-3DD34C3E3F2E}.Debug|x86.ActiveCfg = Debug|x86
 		{4105FDC3-AEAF-4E80-8046-3DD34C3E3F2E}.Debug|x86.Build.0 = Debug|x86
+		{4105FDC3-AEAF-4E80-8046-3DD34C3E3F2E}.Release|Any CPU.ActiveCfg = Release|x86
 		{4105FDC3-AEAF-4E80-8046-3DD34C3E3F2E}.Release|x64.ActiveCfg = Release|x64
 		{4105FDC3-AEAF-4E80-8046-3DD34C3E3F2E}.Release|x64.Build.0 = Release|x64
 		{4105FDC3-AEAF-4E80-8046-3DD34C3E3F2E}.Release|x86.ActiveCfg = Release|x86
 		{4105FDC3-AEAF-4E80-8046-3DD34C3E3F2E}.Release|x86.Build.0 = Release|x86
+		{FF5D1D98-73FD-45A1-B303-FFC31E39EF73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF5D1D98-73FD-45A1-B303-FFC31E39EF73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF5D1D98-73FD-45A1-B303-FFC31E39EF73}.Debug|x64.ActiveCfg = Debug|x64
+		{FF5D1D98-73FD-45A1-B303-FFC31E39EF73}.Debug|x64.Build.0 = Debug|x64
+		{FF5D1D98-73FD-45A1-B303-FFC31E39EF73}.Debug|x86.ActiveCfg = Debug|x86
+		{FF5D1D98-73FD-45A1-B303-FFC31E39EF73}.Debug|x86.Build.0 = Debug|x86
+		{FF5D1D98-73FD-45A1-B303-FFC31E39EF73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF5D1D98-73FD-45A1-B303-FFC31E39EF73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF5D1D98-73FD-45A1-B303-FFC31E39EF73}.Release|x64.ActiveCfg = Release|x64
+		{FF5D1D98-73FD-45A1-B303-FFC31E39EF73}.Release|x64.Build.0 = Release|x64
+		{FF5D1D98-73FD-45A1-B303-FFC31E39EF73}.Release|x86.ActiveCfg = Release|x86
+		{FF5D1D98-73FD-45A1-B303-FFC31E39EF73}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {039DB769-A2FB-4F52-B745-8AFE5FF4E7B3}
+		SolutionGuid = {F25B959D-DE66-4AEB-A3F2-D71C650F5912}
 	EndGlobalSection
 EndGlobal

@@ -8,22 +8,66 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace eaw_texteditor.Properties
-{
-
-
+namespace eaw_texteditor.Properties {
+    
+    
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase
-    {
-
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
-
-        public static Settings Default
-        {
-            get
-            {
+        
+        public static Settings Default {
+            get {
                 return defaultInstance;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ENGLISH")]
+        public global::ts.translation.common.typedefs.PGLanguage USR_LOADED_LANGUAGE {
+            get {
+                return ((global::ts.translation.common.typedefs.PGLanguage)(this["USR_LOADED_LANGUAGE"]));
+            }
+            set {
+                this["USR_LOADED_LANGUAGE"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("BaseLight")]
+        public string USR_BASE_THEME {
+            get {
+                return ((string)(this["USR_BASE_THEME"]));
+            }
+            set {
+                this["USR_BASE_THEME"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Cyan")]
+        public string USR_ACCENT_COLOUR {
+            get {
+                return ((string)(this["USR_ACCENT_COLOUR"]));
+            }
+            set {
+                this["USR_ACCENT_COLOUR"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ENGLISH")]
+        public global::ts.translation.common.typedefs.PGLanguage USR_MASTER_LANGUAGE {
+            get {
+                return ((global::ts.translation.common.typedefs.PGLanguage)(this["USR_MASTER_LANGUAGE"]));
+            }
+            set {
+                this["USR_MASTER_LANGUAGE"] = value;
             }
         }
     }

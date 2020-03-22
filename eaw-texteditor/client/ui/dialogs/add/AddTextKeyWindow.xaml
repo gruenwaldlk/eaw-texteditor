@@ -1,0 +1,70 @@
+﻿<simpleChildWindow:ChildWindow
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:eaw_texteditor.client.ui.dialogs.add"
+        xmlns:simpleChildWindow="clr-namespace:MahApps.Metro.SimpleChildWindow;assembly=MahApps.Metro.SimpleChildWindow"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" x:Class="eaw_texteditor.client.ui.dialogs.add.AddTextKeyWindow"
+        BorderBrush="{DynamicResource AccentBaseColorBrush}"
+        BorderThickness="1"
+        GlowBrush="{DynamicResource AccentColorBrush}"
+        mc:Ignorable="d"
+        ShowTitleBar="False"
+        HorizontalContentAlignment="Stretch"
+        EnableDropShadow="False"
+        CloseByEscape="False" Loaded="AddTextKeyWindow_Loaded">
+    <simpleChildWindow:ChildWindow.OverlayBrush>
+        <SolidColorBrush Opacity="0.35" Color="{StaticResource BlackColor}" />
+    </simpleChildWindow:ChildWindow.OverlayBrush>
+    <Grid Margin="20, 30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="50"/>
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="_keyTextBox" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Text="{Binding Key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsKeyEditable, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Background="{Binding BackgroundColor}"/>
+        <Rectangle Fill="Crimson" Grid.Row="0" Grid.Column="2" Height="25" Width="15" Margin="5,0,0,0" Visibility="{Binding IsBoltVisible}">
+            <Rectangle.OpacityMask>
+                <VisualBrush Visual="{iconPacks:FontAwesome BoltSolid}"/>
+            </Rectangle.OpacityMask>
+        </Rectangle>
+        <TextBlock Grid.Row="1" Grid.Column="1" Foreground="Crimson" Text="The text key should only contain uppercase letters, numbers and underscores. Some hardcoded vanilla keys do not follow this convention, so the message can be disregarded for those keys." Visibility="{Binding IsInvalidVisible}" Margin="0" TextWrapping="Wrap"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Foreground="Crimson" Text="The key already exists." Visibility="{Binding IsDuplicateVisible}" Margin="0" TextWrapping="Wrap"/>
+        <Grid Margin="0" Grid.Row="3" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="_valueEnglishLabel" Content="English:" Grid.Row="0" Grid.Column="0" Visibility="Collapsed"/>
+            <TextBox x:Name="_valueEnglishTextBox" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,5" Text="{Binding EnglishText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" SpellCheck.IsEnabled="True" MinLines="3" Visibility="Collapsed"/>
+            <Label x:Name="_valueGermanLabel" Content="German:" Grid.Row="1" Grid.Column="0" Visibility="Collapsed"/>
+            <TextBox x:Name="_valueGermanTextBox" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,5" Text="{Binding GermanText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" SpellCheck.IsEnabled="True" MinLines="3" Visibility="Collapsed"/>
+            <Label x:Name="_valueFrenchLabel" Content="French:" Grid.Row="2" Grid.Column="0" Visibility="Collapsed"/>
+            <TextBox x:Name="_valueFrenchTextBox" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,5" Text="{Binding FrenchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" SpellCheck.IsEnabled="True" MinLines="3" Visibility="Collapsed"/>
+            <Label x:Name="_valueItalianLabel" Content="Italian:" Grid.Row="3" Grid.Column="0" Visibility="Collapsed"/>
+            <TextBox x:Name="_valueItalianTextBox" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,5" Text="{Binding ItalianText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" SpellCheck.IsEnabled="True" MinLines="3" Visibility="Collapsed"/>
+            <Label x:Name="_valueSpanishLabel" Content="Spanish:" Grid.Row="4" Grid.Column="0" Visibility="Collapsed"/>
+            <TextBox x:Name="_valueSpanishTextBox" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,5" Text="{Binding SpanishText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" SpellCheck.IsEnabled="True" MinLines="3" Visibility="Collapsed"/>
+        </Grid>
+        <UniformGrid Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right"  Columns="2">
+            <Button Content="Add" Margin="5" Click="OnAddClick" IsEnabled="{Binding IsValid, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource MetroFlatButton}"/>
+            <Button Content="Cancel" IsDefault="True" Margin="5" Click="OnCancelClick" Style="{DynamicResource MetroFlatButton}"/>
+        </UniformGrid>
+    </Grid>
+</simpleChildWindow:ChildWindow>
