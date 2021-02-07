@@ -121,7 +121,7 @@ namespace eaw_texteditor.client.ui.main
                     }
                 }
                 FormData.SelectedLanguage = userLangCanBeUsed ? Properties.Settings.Default.USR_LOADED_LANGUAGE : PGTEXTS.GetLoadedLanguages().FirstOrDefault();
-                FormData.Languages = PGTEXTS.GetLoadedLanguages();
+                FormData.Languages = new ObservableCollection<PGLanguage>(PGTEXTS.GetLoadedLanguages());
                 FormData.IsTranslationDataLoaded = true;
             }
             catch (Exception ex)
@@ -156,6 +156,8 @@ namespace eaw_texteditor.client.ui.main
 
                 FormData.Sources.Add(loadedLanguage, new CollectionViewSource() { Source = ObservableTranslationUtility.GetTranslationDataAsObservable(loadedLanguage) });
             }
+
+            FormData.Languages = new ObservableCollection<PGLanguage>(PGTEXTS.GetLoadedLanguages());
         }
 
         private async void _exportExecuteButton_Click(object sender, RoutedEventArgs e)

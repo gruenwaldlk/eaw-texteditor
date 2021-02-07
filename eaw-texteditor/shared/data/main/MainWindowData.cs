@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
@@ -37,9 +38,9 @@ namespace eaw_texteditor.shared.data.main
             }
         }
 
-        private IEnumerable<PGLanguage> _languages = new List<PGLanguage>();
+        private ObservableCollection<PGLanguage> _languages = new ObservableCollection<PGLanguage>();
 
-        public IEnumerable<PGLanguage> Languages
+        public ObservableCollection<PGLanguage> Languages
         {
             get => _languages;
             set
