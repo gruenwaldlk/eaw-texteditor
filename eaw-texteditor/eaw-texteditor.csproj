@@ -70,8 +70,9 @@
     <Reference Include="DotNetToolkit.Wpf.Metro.Dialogs, Version=1.0.3.27, Culture=neutral, PublicKeyToken=fc15a78dc7f484d4, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetToolkit.Wpf.Metro.Dialogs.1.0.3.27\lib\net451\DotNetToolkit.Wpf.Metro.Dialogs.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    <Reference Include="log4net, Version=3.3.0.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a">
+      <HintPath>..\packages\log4net.3.3.0\lib\net462\log4net.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net45\MahApps.Metro.dll</HintPath>
